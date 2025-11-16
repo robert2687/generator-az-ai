@@ -18,8 +18,8 @@ class TestCase:
     name: str
     description: str
     input_messages: List[Dict[str, str]]
-    expected_outputs: List[str] = None
-    metadata: Dict[str, Any] = None
+    expected_outputs: Optional[List[str]] = None
+    metadata: Optional[Dict[str, Any]] = None
 
     def __post_init__(self):
         if self.expected_outputs is None:
@@ -37,7 +37,7 @@ class TestResult:
     expected_output: Optional[str] = None
     error: Optional[str] = None
     execution_time: float = 0.0
-    timestamp: str = None
+    timestamp: Optional[str] = None
 
     def __post_init__(self):
         if self.timestamp is None:
@@ -59,7 +59,7 @@ class AgentTester:
         name: str,
         description: str,
         input_messages: List[Dict[str, str]],
-        expected_outputs: List[str] = None
+        expected_outputs: Optional[List[str]] = None
     ) -> TestCase:
         """Add a test case"""
         test_case = TestCase(

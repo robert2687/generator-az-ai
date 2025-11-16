@@ -45,8 +45,8 @@ class AgentConfig:
     model_id: Optional[str] = None
     temperature: float = 0.7
     max_tokens: Optional[int] = None
-    tools: List[str] = None
-    metadata: Dict[str, Any] = None
+    tools: Optional[List[str]] = None
+    metadata: Optional[Dict[str, Any]] = None
 
     def __post_init__(self):
         if self.tools is None:
@@ -88,7 +88,7 @@ class WorkflowConfig:
     agents: List[str]
     termination_condition: Optional[str] = None
     max_iterations: int = 10
-    metadata: Dict[str, Any] = None
+    metadata: Optional[Dict[str, Any]] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -121,7 +121,7 @@ class AgentRegistry:
 
         for yaml_file in self.base_path.glob("*.yaml"):
             try:
-                agent = AgentConfig.from_yaml(yaml_file)
+                agent = AgentConfig.from_yaml(str(yaml_file))
                 self.agents[agent.name] = agent
                 logger.info(f"Loaded agent: {agent.name}")
             except Exception as e:
@@ -241,12 +241,16 @@ class AgentBuilder:
     def with_tools(self, *tools: str) -> 'AgentBuilder':
         """Add tools to the agent"""
         if self._current_agent:
+            if self._current_agent.tools is None:
+                self._current_agent.tools = []
             self._current_agent.tools.extend(tools)
         return self
 
     def with_metadata(self, **metadata) -> 'AgentBuilder':
         """Add metadata to the agent"""
         if self._current_agent:
+            if self._current_agent.metadata is None:
+                self._current_agent.metadata = {}
             self._current_agent.metadata.update(metadata)
         return self
 

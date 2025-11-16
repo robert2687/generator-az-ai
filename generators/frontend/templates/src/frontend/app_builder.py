@@ -55,7 +55,7 @@ def is_valid_json(json_string):
         return False
 
 
-def make_api_request(endpoint: str, method: str = "GET", data: Dict = None) -> requests.Response:
+def make_api_request(endpoint: str, method: str = "GET", data: Optional[Dict] = None) -> requests.Response:
     """Make an authenticated API request to the backend"""
     backend_url = os.getenv('BACKEND_ENDPOINT', 'http://localhost:8000')
     url = f"{backend_url}{endpoint}"
