@@ -105,7 +105,7 @@ class WorkflowConfig:
 
 class AgentRegistry:
     """Registry for managing agents and workflows"""
-    
+
     def __init__(self, base_path: str = "agents"):
         self.base_path = Path(base_path)
         self.agents: Dict[str, AgentConfig] = {}
@@ -204,7 +204,7 @@ class AgentRegistry:
 
 class AgentBuilder:
     """Builder for creating and configuring agents"""
-    
+
     def __init__(self, registry: Optional[AgentRegistry] = None):
         self.registry = registry or AgentRegistry()
         self._current_agent: Optional[AgentConfig] = None
@@ -254,19 +254,19 @@ class AgentBuilder:
         """Build and optionally register the agent"""
         if not self._current_agent:
             raise ValueError("No agent being built. Call create() first.")
-        
+
         agent = self._current_agent
         self._current_agent = None
-        
+
         if register:
             self.registry.register_agent(agent)
-        
+
         return agent
 
 
 class WorkflowBuilder:
     """Builder for creating agent workflows"""
-    
+
     def __init__(self, registry: Optional[AgentRegistry] = None):
         self.registry = registry or AgentRegistry()
         self._current_workflow: Optional[WorkflowConfig] = None
@@ -315,13 +315,13 @@ class WorkflowBuilder:
         """Build and optionally register the workflow"""
         if not self._current_workflow:
             raise ValueError("No workflow being built. Call create() first.")
-        
+
         workflow = self._current_workflow
         self._current_workflow = None
-        
+
         if register:
             self.registry.register_workflow(workflow)
-        
+
         return workflow
 
 
@@ -332,7 +332,7 @@ AGENT_TEMPLATES = {
         role=AgentRole.CRITIC,
         description="Analyzes and provides constructive feedback",
         instructions="""You are a Critic Agent. You carefully analyze content and provide constructive feedback.
-        
+
 Your Task:
 - Analyze the content objectively
 - Identify strengths and weaknesses
@@ -345,7 +345,7 @@ Your Task:
         role=AgentRole.WRITER,
         description="Creates high-quality written content",
         instructions="""You are a Writer Agent. You create engaging, well-structured content.
-        
+
 Your Task:
 - Understand the topic and audience
 - Create clear, compelling content
@@ -358,7 +358,7 @@ Your Task:
         role=AgentRole.RESEARCHER,
         description="Gathers and synthesizes information",
         instructions="""You are a Researcher Agent. You gather accurate, relevant information.
-        
+
 Your Task:
 - Identify key information sources
 - Collect relevant facts and data
@@ -371,7 +371,7 @@ Your Task:
         role=AgentRole.PLANNER,
         description="Creates strategic plans and task breakdowns",
         instructions="""You are a Planner Agent. You create comprehensive plans to achieve goals.
-        
+
 Your Task:
 - Understand the overall objective
 - Break down into actionable steps
@@ -384,7 +384,7 @@ Your Task:
         role=AgentRole.EXECUTOR,
         description="Executes plans and completes tasks",
         instructions="""You are an Executor Agent. You complete tasks efficiently and effectively.
-        
+
 Your Task:
 - Follow the provided plan
 - Execute each step carefully

@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from patterns.debate import DebateOrchestrator
 from patterns.reasoner import ReasonerOrchestrator
 from agent_builder import (
-    AgentRegistry, AgentBuilder, WorkflowBuilder, 
+    AgentRegistry, AgentBuilder, WorkflowBuilder,
     AgentConfig, WorkflowConfig, AgentRole, OrchestrationPattern,
     get_agent_template, list_agent_templates
 )
@@ -135,12 +135,12 @@ async def create_agent(request: AgentCreateRequest):
                 .with_tools(*request.tools)
                 .with_metadata(**request.metadata)
                 .build(register=True))
-        
+
         if request.model_id:
             agent.model_id = request.model_id
             agent.temperature = request.temperature
             agent_registry.save_agent(agent)
-        
+
         return {
             "message": f"Agent '{agent.name}' created successfully",
             "agent": agent.to_dict()
@@ -156,7 +156,7 @@ async def update_agent(agent_name: str, request: AgentCreateRequest):
     existing_agent = agent_registry.get_agent(agent_name)
     if not existing_agent:
         raise HTTPException(status_code=404, detail=f"Agent '{agent_name}' not found")
-    
+
     try:
         builder = AgentBuilder(agent_registry)
         agent = (builder
@@ -166,12 +166,12 @@ async def update_agent(agent_name: str, request: AgentCreateRequest):
                 .with_tools(*request.tools)
                 .with_metadata(**request.metadata)
                 .build(register=True))
-        
+
         if request.model_id:
             agent.model_id = request.model_id
             agent.temperature = request.temperature
             agent_registry.save_agent(agent)
-        
+
         return {
             "message": f"Agent '{agent.name}' updated successfully",
             "agent": agent.to_dict()
@@ -224,11 +224,11 @@ async def create_workflow(request: WorkflowCreateRequest):
                    .add_agents(*request.agents)
                    .with_max_iterations(request.max_iterations)
                    .build(register=True))
-        
+
         if request.termination_condition:
             workflow.termination_condition = request.termination_condition
             agent_registry.save_workflow(workflow)
-        
+
         return {
             "message": f"Workflow '{workflow.name}' created successfully",
             "workflow": workflow.to_dict()
@@ -244,7 +244,7 @@ async def delete_workflow(workflow_name: str):
     workflow = agent_registry.get_workflow(workflow_name)
     if not workflow:
         raise HTTPException(status_code=404, detail=f"Workflow '{workflow_name}' not found")
-    
+
     # Remove from registry (note: need to implement delete in registry)
     if workflow_name in agent_registry.workflows:
         del agent_registry.workflows[workflow_name]
@@ -282,7 +282,7 @@ async def instantiate_template(template_name: str, custom_name: str = Query(...)
     template = get_agent_template(template_name)
     if not template:
         raise HTTPException(status_code=404, detail=f"Template '{template_name}' not found")
-    
+
     try:
         builder = AgentBuilder(agent_registry)
         agent = (builder
@@ -290,7 +290,7 @@ async def instantiate_template(template_name: str, custom_name: str = Query(...)
                 .with_description(template.description)
                 .with_instructions(template.instructions)
                 .build(register=True))
-        
+
         return {
             "message": f"Agent '{custom_name}' created from template '{template_name}'",
             "agent": agent.to_dict()
@@ -325,10 +325,10 @@ async def http_blog(request_body: dict = Body(...)):
     topic = request_body.get('topic', 'Starwars')
     user_id = request_body.get('user_id', 'default_user')
     workflow_name = request_body.get('workflow', None)
-    
+
     # If a specific workflow is requested, try to use it
     # For now, we'll stick with the default orchestrator
-    
+
     content = f"Write a blog post about {topic}."
 
     conversation_messages = []
