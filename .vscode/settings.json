@@ -6,5 +6,23 @@
     "appService.enablePythonRemoteDebugging": true,
     "appService.showHiddenStacks": true,
     "azureCLI.showResultInNewEditor": true,
-    "azure-dev.auth.useIntegratedAuth": false
+    "azure-dev.auth.useIntegratedAuth": false,
+    "chat.edits2.enabled": true,
+    "chat.emptyState.history.enabled": true,
+    "chat.checkpoints.showFileChanges": true,
+    "chat.mcp.assisted.nuget.enabled": true,
+    "chat.mcp.discovery.enabled": {
+        "claude-desktop": true,
+        "windsurf": true,
+        "cursor-global": true,
+        "cursor-workspace": true
+    },
+    "chat.renderRelatedFiles": true,
+    "chat.todoListTool.descriptionField": true,
+    "chat.tools.terminal.autoReplyToPrompts": true,
+    "chat.tools.terminal.ignoreDefaultAutoApproveRules": true,
+    "chat.useNestedAgentsMdFiles": true,
+    "inlineChat.enableV2": true,
+    "inlineChat.finishOnType": true,
+    "inlineChat.notebookAgent": true
 }
